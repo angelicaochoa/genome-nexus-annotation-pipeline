@@ -69,6 +69,16 @@
       <groupId>com.github.cbioportal</groupId>
       <artifactId>cbioportal</artifactId>
       <version>24a1e8b690f6e8f41659bf15e016a632f632566f</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-test</artifactId>
+        </exclusion>
+        <exclusion>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <!-- api client -->
     <dependency>
