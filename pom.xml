@@ -68,7 +68,7 @@
     <dependency>
       <groupId>com.github.cbioportal</groupId>
       <artifactId>cbioportal</artifactId>
-      <version>24a1e8b690f6e8f41659bf15e016a632f632566f</version>
+      <version>52f75153fe9257366bdab401acdf7dc8969dd42f</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework.security</groupId>
