@@ -69,7 +69,7 @@
     <dependency>
       <groupId>com.github.ao508.cbioportal</groupId>
       <artifactId>core</artifactId>
-      <version>a5412a94c14cf7cadc4a74fed1ab4f7574f9b29d</version>
+      <version>de4bb93f602df6a1930f15ba450e6b10491a7d80</version>
       <exclusions>
           <exclusion>
               <groupId>org.apache.logging.log4j</groupId>
@@ -80,7 +80,7 @@
     <dependency>
       <groupId>com.github.ao508.cbioportal</groupId>
       <artifactId>scripts</artifactId>
-      <version>a5412a94c14cf7cadc4a74fed1ab4f7574f9b29d</version>
+      <version>de4bb93f602df6a1930f15ba450e6b10491a7d80</version>
       <exclusions>
           <exclusion>
               <groupId>org.apache.logging.log4j</groupId>
