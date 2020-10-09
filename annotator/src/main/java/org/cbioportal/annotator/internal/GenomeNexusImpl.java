@@ -209,10 +209,26 @@ public class GenomeNexusImpl implements Annotator {
         return apiClient;
     }
 
+    private TranscriptConsequenceSummary populateSiftPolyphenAnnotations(TranscriptConsequenceSummary canonicalTranscript, VariantAnnotation gnResponse) {
+        for (TranscriptConsequence transcript : gnResponse.getTranscriptConsequences()) {
+            if (transcript.getTranscriptId().equals(canonicalTranscript.getTranscriptId())) {
+                canonicalTranscript.setSiftPrediction(transcript.getSiftPrediction());
+                canonicalTranscript.setSiftScore(transcript.getSiftScore());
+                canonicalTranscript.setPolyphenPrediction(transcript.getPolyphenPrediction());
+                canonicalTranscript.setPolyphenScore(transcript.getPolyphenScore());
+                break;
+            }
+        }
+        return canonicalTranscript;
+    }
+
     public AnnotatedRecord convertResponseToAnnotatedRecord(VariantAnnotation gnResponse, MutationRecord mRecord, boolean replace) {
         // get the canonical transcript
         TranscriptConsequenceSummary canonicalTranscript = getCanonicalTranscript(gnResponse);
-
+        if (canonicalTranscript != null) {
+            canonicalTranscript = populateSiftPolyphenAnnotations(canonicalTranscript, gnResponse);
+        }
+        
         // annotate the record
         AnnotatedRecord annotatedRecord= new AnnotatedRecord(annotationUtil.resolveHugoSymbol(canonicalTranscript, mRecord, replace),
                 annotationUtil.resolveEntrezGeneId(canonicalTranscript, mRecord, replace),
