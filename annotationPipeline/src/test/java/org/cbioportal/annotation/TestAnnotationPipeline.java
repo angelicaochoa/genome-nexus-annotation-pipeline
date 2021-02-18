@@ -35,26 +35,56 @@ package org.cbioportal.annotation;
  *
  * @author heinsz
  */
+import javax.sql.DataSource;
 import org.cbioportal.annotation.pipeline.*;
-import org.springframework.test.context.junit4.*;
-import org.springframework.batch.core.*;
-import org.springframework.batch.test.*; 
 import org.junit.*;
 import org.junit.runner.*;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.batch.core.*;
+import org.springframework.batch.test.*;
+import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@IntegrationTest
-@SpringApplicationConfiguration(classes={BatchConfiguration.class, TestConfiguration.class})
+@RunWith(SpringRunner.class)
+//@EnableAutoConfiguration
+@SpringBatchTest//(classes = {AnnotationPipeline.class})
+@ContextConfiguration(classes = {TestConfiguration.class})
+@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+//@SpringBootTest(classes = {AnnotationPipeline.class, BatchConfiguration.class, TestConfiguration.class})
+//@SpringApplicationConfiguration(classes={BatchConfiguration.class, TestConfiguration.class})
 @TestPropertySource("classpath:application-test.properties")
 public class TestAnnotationPipeline {
-    
+   
     @Autowired
     JobLauncherTestUtils jobLauncherTestUtils;
+
+    @Autowired
+    private JobRepositoryTestUtils jobRepositoryTestUtils;
+
+    @After
+    public void cleanUp() {
+        jobRepositoryTestUtils.removeJobExecutions();
+    }
+
+    @Autowired
+    private DataSource dataSource;
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        jobRepositoryTestUtils.setDataSource(dataSource);
+    }
+    
+    @Autowired
+    private Job annotationJob;
+
+    @Autowired
+    public void setJob(Job job) {
+        jobLauncherTestUtils.setJob(annotationJob);
+    }
     
     @Test
     public void pipelineTest() throws Exception {
